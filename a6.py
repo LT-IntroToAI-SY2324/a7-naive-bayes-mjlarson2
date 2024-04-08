@@ -107,6 +107,14 @@ class BayesClassifier:
         # avoid extra work in the future (using the save_dict method). The objects you
         # are saving are self.pos_freqs and self.neg_freqs and the filepaths to save to
         # are self.pos_filename and self.neg_filename
+    
+    def clean(self) -> None:
+
+        stoplist = self.load_file("sorted_stoplist.txt")
+        tokens = self.tokenize(stoplist)
+        for x in tokens:
+            self.pos_freqs.pop(x)
+            self.neg_freqs.pop(x)
 
     def classify(self, text: str) -> str:
         """Classifies given text as positive, negative or neutral from calculating the
@@ -295,4 +303,3 @@ if __name__ == "__main__":
     print("\nThe following should all be negative.")
     print(b.classify('rainy days are the worst'))
     print(b.classify('computer science is terrible'))
-    pass
